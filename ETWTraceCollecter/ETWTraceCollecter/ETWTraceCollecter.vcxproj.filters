@@ -15,16 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="trace_collecter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="system_information.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="event_consumer.cpp">
+    <ClCompile Include="getAddress.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="getAddress.cpp">
+    <ClCompile Include="trace_collecter_main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="trace_producer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="trace_parser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="etw_configuring.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +38,16 @@
     <ClInclude Include="system_information.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="event_consumer.h">
+    <ClInclude Include="getAddress.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="getAddress.h">
+    <ClInclude Include="trace_producer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="trace_parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="etw_configuring.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

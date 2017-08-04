@@ -1,7 +1,10 @@
 #include <windows.h>
+#include <stdio.h>
+#include <wbemidl.h>
+#include <wmistr.h>
 #include <evntrace.h>
-#include <cstdio>
 #include <tdh.h> //PROCESS_TRACE_MODE_REAL_TIME | PROCESS_TRACE_MODE_EVENT_RECORD
+#include <in6addr.h>
 #include <dia2.h>
 
 #include "trace_producer.h"
@@ -10,6 +13,11 @@
 using namespace std;
 
 trace_producer::trace_producer(){
+	EVENT_TRACE_LOGFILE event_logfile;
+	TRACE_LOGFILE_HEADER* event_logfile_header;
+	TRACEHANDLE event_logfile_handle;
+	BOOL event_usermode = FALSE;
+
 begin:
 	event_logfile_header = &event_logfile.LogfileHeader;
 	ZeroMemory(&event_logfile, sizeof(EVENT_TRACE_LOGFILE));
@@ -43,6 +51,25 @@ cleanup:
 	goto begin;
 }
 
-VOID WINAPI consum_event(PEVENT_RECORD event_pointer){
+VOID WINAPI trace_producer::consum_event(PEVENT_RECORD event_pointer){
+	//unique_lock<mutex> lock(bufferMutex);
 
+	//notFullCv.wait(lock, [=] {return pEventBufferSize < BUFFERSIZE; });
+
+	//{
+	//	//pEventBuffer[producterPos] = pEvent;
+	//	eventStructBuffer[producterPos].userData = pEvent->UserData;
+	//	eventStructBuffer[producterPos].userDataSize = pEvent->UserDataLength;
+
+	//	cout << (pEvent->EventHeader).Size << "+" << pEvent->UserDataLength << "=" << (pEvent->EventHeader).Size + pEvent->UserDataLength << "?=" << pEvent->UserData;
+
+	//	producterPos = (producterPos + 1) % BUFFERSIZE;
+	//	++pEventBufferSize;
+	//	cout << "producter postion: " << producterPos << "\tbuffer size: " << pEventBufferSize << endl;
+	//}
+
+	//lock.unlock();
+
+	//notEmptyCv.notify_one();
+	////notEmptyCv.notify_all();
 }
