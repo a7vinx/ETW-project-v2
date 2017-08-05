@@ -68,7 +68,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="etw_configuring.cpp" />
-    <ClCompile Include="trace_parser.cpp" />
     <ClCompile Include="trace_producer.cpp" />
     <ClCompile Include="getAddress.cpp" />
     <ClCompile Include="system_information.cpp" />
@@ -76,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="etw_configuring.h" />
-    <ClInclude Include="trace_parser.h" />
     <ClInclude Include="trace_producer.h" />
     <ClInclude Include="getAddress.h" />
     <ClInclude Include="system_information.h" />

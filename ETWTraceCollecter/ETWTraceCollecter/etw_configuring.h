@@ -14,13 +14,13 @@ using namespace std;
 
 class etw_configuring{
 public:
-	void start_etw(void);
+	int start_etw(void);
 	void stop_etw(void);
 
 private:
-	TRACEHANDLE SessionHandle;
+	TRACEHANDLE SessionHandle_;
 	// EVENT_TRACE_PROPERTIES* pSessionProperties;
-	void* pSEssionProperties;
+	void* pSessionProperties_;
 
 };
 

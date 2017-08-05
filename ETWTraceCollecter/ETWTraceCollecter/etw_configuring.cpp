@@ -7,8 +7,12 @@
 #include <wmistr.h>
 #include <evntrace.h>
 
+#include "etw_configuring.h"
 
-void configure_etw_provider(void) // "__cdecl" for multi_thread
+
+using namespace std;
+
+int etw_configuring::start_etw(void) // "__cdecl" for multi_thread
 {
 	ULONG status = ERROR_SUCCESS;
 	TRACEHANDLE SessionHandle = 0;
@@ -112,13 +116,40 @@ void configure_etw_provider(void) // "__cdecl" for multi_thread
 			wprintf(L"EnableTrace() failed with %lu\n", status);
 		}
 
-		goto cleanup;
+		//goto cleanup;
 	}
 
-	wprintf(L"Press any key to end trace session ");
-	_getch();
+	SessionHandle_ = SessionHandle;
+	pSessionProperties_ = pSessionProperties;
+	return 0;
 
 cleanup:
+	SessionHandle_ = SessionHandle;
+	pSessionProperties_ = pSessionProperties;
+	stop_etw();
+	return 1;
+
+	//if (SessionHandle)
+	//{
+	//	status = ControlTrace(SessionHandle, KERNEL_LOGGER_NAME, pSessionProperties, EVENT_TRACE_CONTROL_STOP);
+
+	//	if (ERROR_SUCCESS != status)
+	//	{
+	//		wprintf(L"ControlTrace(stop) failed with %lu\n", status);
+	//	}
+	//}
+
+	//if (pSessionProperties)
+	//	free(pSessionProperties);
+
+	//_getch();
+
+}
+
+void etw_configuring::stop_etw(void){
+	ULONG status = ERROR_SUCCESS;
+	TRACEHANDLE SessionHandle = SessionHandle_;
+	EVENT_TRACE_PROPERTIES* pSessionProperties = (EVENT_TRACE_PROPERTIES*)pSessionProperties_;
 
 	if (SessionHandle)
 	{
@@ -132,6 +163,4 @@ cleanup:
 
 	if (pSessionProperties)
 		free(pSessionProperties);
-
-	_getch();
 }

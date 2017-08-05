@@ -9,14 +9,24 @@
 
 using namespace std;
 
+trace_buffer_format trace_buffer[TRACE_BUFFER_SIZE];
+int producer_position = 0;
+
 void wmain(int argc, char* argv[]){
 	// Configure the ETW provider, so we can get the event we want and the output way.
-	//configure_etw_provider();
+	etw_configuring etw;
+	if (0 == etw.start_etw()) // There should be etw.stop_etw(). So that the etw can quit.
+		wprintf(L"ETW trace session start successfully!\n");
+	else{
+		wprintf(L"ETW trace session go WRONG! press any key to quit.\n");
+		_getch();
+		return;
+	}
 
-	system_information sysinfo;
-	getAddress g;
-	trace_producer tp;
+	trace_producer trace;
+	trace.setup_event_producer();
 
-
-	cout << endl;
+	etw.stop_etw();
+	wprintf(L"WELL DONE!\n");
+	_getch();
 }
