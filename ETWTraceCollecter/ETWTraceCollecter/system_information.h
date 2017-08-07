@@ -12,14 +12,15 @@ class system_information{
 public:
 	// Variables as buffer for the "trace_parser"
 	// Should be put in private space when involved in multi_thread, but let put it here for testing for now.
-	DWORD curPID[4];
+	DWORD processer_processid_map[4];
 	int parmnum;
 
 	unordered_map<DWORD, short> ParmToNum;
-	unordered_map<DWORD, DWORD> messageID_Map;
+	unordered_map<DWORD, DWORD> messageID_Map; // ALPC
 
 	unordered_map<DWORD, wchar_t*> processid_name_map;
 	unordered_map<DWORD, DWORD> threadid_processid_map;
+	unordered_map<DWORD, wstring> keyname_parameter_map;
 
 	struct hash_func{
 		int operator()(const wchar_t * str)const{

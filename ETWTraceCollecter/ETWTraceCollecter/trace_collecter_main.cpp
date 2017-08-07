@@ -29,6 +29,8 @@ int trace_buffer_size = 0;
 int producer_position = 0;
 int consumer_position = 0;
 
+output_format output_buffer[OUTPUT_SIZE];
+int output_position = 0;
 
 trace_parser parser;
 
@@ -110,7 +112,7 @@ VOID WINAPI consum_event(PEVENT_RECORD event_pointer){
 		trace_buffer[producer_position].user_data = event_pointer->UserData;
 		//trace_buffer[producer_position].user_data_size = event_pointer->UserDataLength;
 		trace_buffer[producer_position].buffer_context = event_pointer->BufferContext;
-		trace_buffer[producer_position].event_hander = event_pointer->EventHeader;
+		trace_buffer[producer_position].event_header = event_pointer->EventHeader;
 
 		//cout << (event_pointer->EventHeader).Size << "+" << event_pointer->UserDataLength << "=" << (event_pointer->EventHeader).Size + event_pointer->UserDataLength << "?=" << event_pointer->UserData;
 
@@ -130,15 +132,17 @@ VOID __cdecl parse_event_multi_thread(void*){
 		unique_lock<mutex> lock(trace_buffer_mutex);
 		trace_not_empty_cv.wait(lock, [=] {return trace_buffer_size > 0; });
 
-
-		{
-			output_format output = parser.parse_event(trace_buffer[consumer_position]);
-			trace_buffer[consumer_position];
-			consumer_position = (consumer_position + 1) % TRACE_BUFFER_SIZE;
-			--trace_buffer_size;
-		}
+		output_format output = parser.parse_event(trace_buffer[consumer_position]);
+		trace_buffer[consumer_position];
+		consumer_position = (consumer_position + 1) % TRACE_BUFFER_SIZE;
+		--trace_buffer_size;
 
 		lock.unlock();
 		trace_not_full_cv.notify_one();
+
+		if (output.event_type != 0){
+			output_buffer[output_position] = output;
+			output_position = (output_position + 1) % OUTPUT_SIZE;
+		}
 	}
 }

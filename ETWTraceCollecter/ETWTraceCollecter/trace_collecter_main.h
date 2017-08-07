@@ -1,3 +1,5 @@
+#define OUTPUT_SIZE 100
+
 void setup_event_producer();
 VOID WINAPI consum_event(PEVENT_RECORD event_pointer);
 

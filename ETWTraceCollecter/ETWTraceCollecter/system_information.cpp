@@ -15,7 +15,7 @@ system_information::system_information() {
 	get_all_process();
 	get_all_thread();
 
-	curPID[4] = { 0L };
+	processer_processid_map[4] = { 0L };
 	parmnum = 255;
 }
 

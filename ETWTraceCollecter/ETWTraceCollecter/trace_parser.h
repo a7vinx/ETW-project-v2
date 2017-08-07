@@ -19,13 +19,14 @@ using namespace std;
 struct trace_buffer_format{
 	PVOID user_data;
 	//USHORT user_data_size;
-	EVENT_HEADER event_hander;
+	EVENT_HEADER event_header;
 	ETW_BUFFER_CONTEXT buffer_context;
 };
 
 struct output_format{
-	int cpid;
-	DWORD event_type;
+	int current_process_id;
+	char event_type;
+	wstring systemcall_parameter;
 };
 
 class trace_parser{
