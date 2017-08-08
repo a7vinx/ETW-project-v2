@@ -78,13 +78,13 @@ output_format trace_parser::parse_event(trace_buffer_format trace){
 				else{
 					output.current_process_id = trace.event_header.ProcessId;
 					DWORD messageID = *(DWORD*)(pUserData);
-					if (sys_info.messageID_Map.find(messageID) != sys_info.messageID_Map.end() && sys_info.processid_name_map.find(sys_info.messageID_Map[messageID]) != sys_info.processid_name_map.end() && sys_info.ParaList.find(sys_info.processid_name_map[sys_info.messageID_Map[messageID]]) != sys_info.ParaList.end()){
+					if (sys_info.messageID_Map.find(messageID) != sys_info.messageID_Map.end() && sys_info.processid_name_map.find(sys_info.messageID_Map[messageID]) != sys_info.processid_name_map.end()){
 						finishOP = true;
-						sys_info.parmnum = sys_info.ParaList[sys_info.processid_name_map[sys_info.messageID_Map[messageID]]];
+						output.systemcall_parameter = sys_info.processid_name_map[sys_info.messageID_Map[messageID]];
 					}
-					if (sys_info.processid_name_map.find(output.current_process_id) != sys_info.processid_name_map.end() && sys_info.ParaList.find(sys_info.processid_name_map[output.current_process_id]) != sys_info.ParaList.end()){
+					if (sys_info.processid_name_map.find(output.current_process_id) != sys_info.processid_name_map.end()){
 						finishOP = true;
-						sys_info.parmnum = sys_info.ParaList[sys_info.processid_name_map[output.current_process_id]];
+						output.systemcall_parameter = sys_info.processid_name_map[output.current_process_id];
 						output.current_process_id = sys_info.messageID_Map[messageID];
 					}
 					goto cleanup;

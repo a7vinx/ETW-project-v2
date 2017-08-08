@@ -47,6 +47,7 @@ void wmain(int argc, char* argv[]){
 	}
 
 	_beginthread(parse_event_multi_thread, 0, NULL);
+	_beginthread(parse_event_multi_thread, 0, NULL);
 
 	setup_event_producer();
 
@@ -118,11 +119,12 @@ VOID WINAPI consum_event(PEVENT_RECORD event_pointer){
 
 		producer_position = (producer_position + 1) % TRACE_BUFFER_SIZE;
 		++trace_buffer_size;
+		wprintf(L"Producer_position:%d\tTrace_buffer_size:%d\n", producer_position, trace_buffer_size);
 	}
 
 	lock.unlock();
 
-	trace_not_empty_cv.notify_one();
+	trace_not_empty_cv.notify_all();
 	//notEmptyCv.notify_all();
 }
 
@@ -136,6 +138,7 @@ VOID __cdecl parse_event_multi_thread(void*){
 		trace_buffer[consumer_position];
 		consumer_position = (consumer_position + 1) % TRACE_BUFFER_SIZE;
 		--trace_buffer_size;
+		wprintf(L"Consumer_position:%d\tTrace_buffer_size:%d\n", consumer_position, trace_buffer_size);
 
 		lock.unlock();
 		trace_not_full_cv.notify_one();
