@@ -30,6 +30,9 @@
     <ClCompile Include="trace_parser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="cdm_serialization.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system_information.h">
@@ -47,14 +50,167 @@
     <ClInclude Include="trace_parser.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cdm_serialization.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="systemcall_list.inc">
       <Filter>头文件</Filter>
     </None>
+    <None Include="lib\avrocpp.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_chrono-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_chrono-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_date_time-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_date_time-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_filesystem-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_filesystem-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_iostreams-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_iostreams-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_log_setup-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_log_setup-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_log-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_log-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_program_options-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_program_options-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_regex-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_regex-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_system-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_system-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_thread-vc120-mt-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\boost_thread-vc120-mt-gd-1_59.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\librdkafka.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\librdkafkacpp.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\libtcta3cpp.dll">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lib\zlib.dll">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\ntdll.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\avrocpp.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_chrono-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_chrono-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_date_time-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_date_time-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_filesystem-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_filesystem-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_iostreams-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_iostreams-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_log_setup-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_log_setup-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_log-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_log-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_program_options-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_program_options-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_regex-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_regex-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_system-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_system-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_thread-vc120-mt-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\boost_thread-vc120-mt-gd-1_59.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\librdkafka.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\librdkafkacpp.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\libtcta3cpp.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+    <Library Include="lib\zlib.lib">
       <Filter>资源文件</Filter>
     </Library>
   </ItemGroup>

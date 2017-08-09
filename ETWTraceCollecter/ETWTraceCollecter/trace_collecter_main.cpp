@@ -10,6 +10,7 @@
 #include <dia2.h>
 #include <mutex>
 #include <condition_variable>
+#include <signal.h>
 
 #include "system_information.h"
 #include "getAddress.h"
@@ -28,16 +29,21 @@ condition_variable trace_not_empty_cv;
 int trace_buffer_size = 0;
 int producer_position = 0;
 int consumer_position = 0;
+int producer_counter = 0;
+int consumer_counter = 0;
 
 output_format output_buffer[OUTPUT_SIZE];
 int output_position = 0;
 
 trace_parser parser;
+etw_configuring etw;
+
+HANDLE parser_thread_handle;
+HANDLE consumer_thread_handle;
 
 
 void wmain(int argc, char* argv[]){
 	// Configure the ETW provider, so we can get the event we want and the output way.
-	etw_configuring etw;
 	if (0 == etw.start_etw()) // There should be etw.stop_etw(). So that the etw can quit.
 		wprintf(L"ETW trace session start successfully!\n");
 	else{
@@ -46,18 +52,36 @@ void wmain(int argc, char* argv[]){
 		return;
 	}
 
-	_beginthread(parse_event_multi_thread, 0, NULL);
-	_beginthread(parse_event_multi_thread, 0, NULL);
+	signal(SIGINT, exit_etw);
 
-	setup_event_producer();
+	consumer_thread_handle = (HANDLE)_beginthread(setup_event_producer, 0, NULL);
+	//parser_thread_handle = (HANDLE)_beginthread(parse_event_multi_thread, 0, NULL);
+	//_beginthread(parse_event_multi_thread, 0, NULL);
+	//_beginthread(parse_event_multi_thread, 0, NULL);
+	//_beginthread(parse_event_multi_thread, 0, NULL);
+	
+	/*try{
+		setup_event_producer(NULL);
+	}
+	catch (...){
+		wprintf(L"haaaaaa\n");;
+	}*/
 
+	while (1){
+		Sleep(100000);
+	}
+}
+
+void exit_etw(int signal_num){
 	etw.stop_etw();
-	wprintf(L"WELL DONE!\n");
-	_getch();
+	wprintf(L"ETW stop successful!\n");
+	CloseHandle(consumer_thread_handle);
+	wprintf(L"consumer stop successful!\n");
+	exit(0);
 }
 
 // The function will set up the etw producer and call the call_back function.
-void setup_event_producer(){
+VOID __cdecl setup_event_producer(void*){
 	EVENT_TRACE_LOGFILE event_logfile;
 	TRACE_LOGFILE_HEADER* event_logfile_header;
 	TRACEHANDLE event_logfile_handle;
@@ -100,32 +124,45 @@ cleanup:
 
 // The call_back function, in this case it should parser the pHeader and write important information to the trace_buffer.
 VOID WINAPI consum_event(PEVENT_RECORD event_pointer){
-	unique_lock<mutex> lock(trace_buffer_mutex);
+	//Sleep(1);
+	//unique_lock<mutex> lock(trace_buffer_mutex);
 
-	trace_not_full_cv.wait(lock, [=] {return trace_buffer_size < TRACE_BUFFER_SIZE; });
+	//trace_not_full_cv.wait(lock, [=] {return trace_buffer_size < TRACE_BUFFER_SIZE; });
 
 	{
 		//// This function can't use member variables.
 		//trace_buffer_format trace_buffer[TRACE_BUFFER_SIZE];
 		//int producer_position;
-
+		trace_buffer_format temp_trace;
 		//pEventBuffer[producterPos] = pEvent;
-		trace_buffer[producer_position].user_data = event_pointer->UserData;
+		temp_trace.user_data = event_pointer->UserData;
 		//trace_buffer[producer_position].user_data_size = event_pointer->UserDataLength;
-		trace_buffer[producer_position].buffer_context = event_pointer->BufferContext;
-		trace_buffer[producer_position].event_header = event_pointer->EventHeader;
+		temp_trace.buffer_context = event_pointer->BufferContext;
+		temp_trace.event_header = event_pointer->EventHeader;
 
-		//cout << (event_pointer->EventHeader).Size << "+" << event_pointer->UserDataLength << "=" << (event_pointer->EventHeader).Size + event_pointer->UserDataLength << "?=" << event_pointer->UserData;
+		// temp
+		{
+			output_format temp_output = parser.parse_event(temp_trace);
+			if (temp_output.event_type != 0){
+				output_buffer[output_position] = temp_output;
+				output_position = (output_position + 1) % OUTPUT_SIZE;
+			}
+		}
 
-		producer_position = (producer_position + 1) % TRACE_BUFFER_SIZE;
-		++trace_buffer_size;
-		wprintf(L"Producer_position:%d\tTrace_buffer_size:%d\n", producer_position, trace_buffer_size);
+		//trace_buffer[producer_position] = temp_trace;
+
+		////cout << (event_pointer->EventHeader).Size << "+" << event_pointer->UserDataLength << "=" << (event_pointer->EventHeader).Size + event_pointer->UserDataLength << "?=" << event_pointer->UserData;
+
+		//producer_position = (producer_position + 1) % TRACE_BUFFER_SIZE;
+		//++trace_buffer_size;
+		++producer_counter;
+		//wprintf(L"Producer_position:%d\tTrace_buffer_size:%d\n", producer_position, trace_buffer_size);
 	}
 
-	lock.unlock();
+	//lock.unlock();
 
-	trace_not_empty_cv.notify_all();
-	//notEmptyCv.notify_all();
+	//trace_not_empty_cv.notify_all();
+	////notEmptyCv.notify_all();
 }
 
 VOID __cdecl parse_event_multi_thread(void*){
@@ -134,11 +171,12 @@ VOID __cdecl parse_event_multi_thread(void*){
 		unique_lock<mutex> lock(trace_buffer_mutex);
 		trace_not_empty_cv.wait(lock, [=] {return trace_buffer_size > 0; });
 
-		output_format output = parser.parse_event(trace_buffer[consumer_position]);
-		trace_buffer[consumer_position];
+		output_format output;
+		output = parser.parse_event(trace_buffer[consumer_position]);
 		consumer_position = (consumer_position + 1) % TRACE_BUFFER_SIZE;
 		--trace_buffer_size;
-		wprintf(L"Consumer_position:%d\tTrace_buffer_size:%d\n", consumer_position, trace_buffer_size);
+		++consumer_counter;
+		//wprintf(L"Consumer_position:%d\tTrace_buffer_size:%d\n", consumer_position, trace_buffer_size);
 
 		lock.unlock();
 		trace_not_full_cv.notify_one();

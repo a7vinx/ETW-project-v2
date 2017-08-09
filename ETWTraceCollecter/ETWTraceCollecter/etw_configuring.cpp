@@ -44,47 +44,34 @@ int etw_configuring::start_etw(void) // "__cdecl" for multi_thread
 	pSessionProperties->Wnode.ClientContext = 1; //QPC clock resolution
 	pSessionProperties->Wnode.Guid = SystemTraceControlGuid;
 	pSessionProperties->EnableFlags = 0L
-		//| EVENT_TRACE_FLAG_SYSTEMCALL
-		//| EVENT_TRACE_FLAG_CSWITCH  
-		//| EVENT_TRACE_FLAG_REGISTRY
-		//| EVENT_TRACE_FLAG_IMAGE_LOAD
-		//| EVENT_TRACE_FLAG_FILE_IO_INIT
-		//
+									| EVENT_TRACE_FLAG_PROCESS            // process start & end
+									| EVENT_TRACE_FLAG_THREAD            // thread start & end
+									| EVENT_TRACE_FLAG_IMAGE_LOAD          // image load
+									| EVENT_TRACE_FLAG_FILE_IO              // file IO
+									| EVENT_TRACE_FLAG_DISK_FILE_IO         // requires disk IO
+									| EVENT_TRACE_FLAG_REGISTRY             // registry calls
+									| EVENT_TRACE_FLAG_CSWITCH              // context switches
+									| EVENT_TRACE_FLAG_SYSTEMCALL           // system calls
+									| EVENT_TRACE_FLAG_ALPC                 // ALPC traces
 
 
-		//| EVENT_TRACE_FLAG_NETWORK_TCPIP
-		//| EVENT_TRACE_FLAG_DISK_FILE_IO
-		//| EVENT_TRACE_FLAG_FILE_IO	
-
-
-		| EVENT_TRACE_FLAG_PROCESS            // process start & end
-		| EVENT_TRACE_FLAG_THREAD            // thread start & end
-		| EVENT_TRACE_FLAG_IMAGE_LOAD          // image load
-		| EVENT_TRACE_FLAG_FILE_IO              // file IO
-		| EVENT_TRACE_FLAG_DISK_FILE_IO         // requires disk IO
-		| EVENT_TRACE_FLAG_REGISTRY             // registry calls
-		| EVENT_TRACE_FLAG_CSWITCH              // context switches
-		| EVENT_TRACE_FLAG_SYSTEMCALL           // system calls
-		| EVENT_TRACE_FLAG_ALPC                 // ALPC traces
-
-
-		| EVENT_TRACE_FLAG_DISK_IO             // physical disk IO
-		| EVENT_TRACE_FLAG_MEMORY_PAGE_FAULTS   // all page faults
-		| EVENT_TRACE_FLAG_MEMORY_HARD_FAULTS   // hard faults only
-		| EVENT_TRACE_FLAG_NETWORK_TCPIP        // tcpip send & receive
-		| EVENT_TRACE_FLAG_DBGPRINT             // DbgPrint(ex) Calls
-		| EVENT_TRACE_FLAG_PROCESS_COUNTERS     // process perf counters
-		| EVENT_TRACE_FLAG_DPC                  // deffered procedure calls
-		| EVENT_TRACE_FLAG_INTERRUPT            // interrupts
-		| EVENT_TRACE_FLAG_DISK_IO_INIT         // physical disk IO initiation
-		| EVENT_TRACE_FLAG_SPLIT_IO             // split io traces (VolumeManager)
-		| EVENT_TRACE_FLAG_DRIVER               // driver delays
-		//| EVENT_TRACE_FLAG_PROFILE              // sample based profiling
-		//| EVENT_TRACE_FLAG_FILE_IO_INIT  // file IO initiation     
-		//| EVENT_TRACE_FLAG_DISPATCHER	// scheduler (ReadyThread)
-		//| EVENT_TRACE_FLAG_VIRTUAL_ALLOC		//VM operations
-		//| EVENT_TRACE_FLAG_PROFILE
-		;
+									| EVENT_TRACE_FLAG_DISK_IO             // physical disk IO
+									| EVENT_TRACE_FLAG_MEMORY_PAGE_FAULTS   // all page faults
+									| EVENT_TRACE_FLAG_MEMORY_HARD_FAULTS   // hard faults only
+									| EVENT_TRACE_FLAG_NETWORK_TCPIP        // tcpip send & receive
+									| EVENT_TRACE_FLAG_DBGPRINT             // DbgPrint(ex) Calls
+									| EVENT_TRACE_FLAG_PROCESS_COUNTERS     // process perf counters
+									| EVENT_TRACE_FLAG_DPC                  // deffered procedure calls
+									| EVENT_TRACE_FLAG_INTERRUPT            // interrupts
+									| EVENT_TRACE_FLAG_DISK_IO_INIT         // physical disk IO initiation
+									| EVENT_TRACE_FLAG_SPLIT_IO             // split io traces (VolumeManager)
+									| EVENT_TRACE_FLAG_DRIVER               // driver delays
+									//| EVENT_TRACE_FLAG_PROFILE              // sample based profiling
+									//| EVENT_TRACE_FLAG_FILE_IO_INIT  // file IO initiation     
+									//| EVENT_TRACE_FLAG_DISPATCHER	// scheduler (ReadyThread)
+									//| EVENT_TRACE_FLAG_VIRTUAL_ALLOC		//VM operations
+									//| EVENT_TRACE_FLAG_PROFILE
+									;
 
 	//pSessionProperties->LogFileMode = EVENT_TRACE_FILE_MODE_CIRCULAR;
 	//pSessionProperties->MaximumFileSize = 1;  //  MB

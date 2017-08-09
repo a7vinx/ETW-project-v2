@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\admin\Desktop\ETW-project-v2\ETWTraceCollecter\ETWTraceCollecter;C:\Program Files %28x86%29\Microsoft Visual Studio 12.0\DIA SDK\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\admin\Desktop\ETW-project-v2\ETWTraceCollecter\ETWTraceCollecter\include;C:\Users\admin\Desktop\ETW-project-v2\ETWTraceCollecter\ETWTraceCollecter;C:\Program Files %28x86%29\Microsoft Visual Studio 12.0\DIA SDK\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\admin\Desktop\ETW-project-v2\ETWTraceCollecter\ETWTraceCollecter\lib;C:\Users\admin\Desktop\ETW-project-v2\ETWTraceCollecter\ETWTraceCollecter;C:\Program Files %28x86%29\Microsoft Visual Studio 12.0\DIA SDK\lib\amd64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -47,6 +47,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D "BOOST_ALL_DYN_LINK" 
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -67,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cdm_serialization.cpp" />
     <ClCompile Include="etw_configuring.cpp" />
     <ClCompile Include="trace_parser.cpp" />
     <ClCompile Include="getAddress.cpp" />
@@ -74,6 +77,7 @@
     <ClCompile Include="trace_collecter_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cdm_serialization.h" />
     <ClInclude Include="etw_configuring.h" />
     <ClInclude Include="trace_collecter_main.h" />
     <ClInclude Include="trace_parser.h" />
@@ -81,10 +85,60 @@
     <ClInclude Include="system_information.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lib\avrocpp.dll" />
+    <None Include="lib\boost_chrono-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_chrono-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_date_time-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_date_time-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_filesystem-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_filesystem-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_iostreams-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_iostreams-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_log-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_log-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_log_setup-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_log_setup-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_program_options-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_program_options-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_regex-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_regex-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_system-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_system-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\boost_thread-vc120-mt-1_59.dll" />
+    <None Include="lib\boost_thread-vc120-mt-gd-1_59.dll" />
+    <None Include="lib\librdkafka.dll" />
+    <None Include="lib\librdkafkacpp.dll" />
+    <None Include="lib\libtcta3cpp.dll" />
+    <None Include="lib\zlib.dll" />
     <None Include="systemcall_list.inc" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="lib\avrocpp.lib" />
+    <Library Include="lib\boost_chrono-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_chrono-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_date_time-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_date_time-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_filesystem-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_filesystem-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_iostreams-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_iostreams-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_log-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_log-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_log_setup-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_log_setup-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_program_options-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_program_options-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_regex-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_regex-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_system-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_system-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\boost_thread-vc120-mt-1_59.lib" />
+    <Library Include="lib\boost_thread-vc120-mt-gd-1_59.lib" />
+    <Library Include="lib\librdkafka.lib" />
+    <Library Include="lib\librdkafkacpp.lib" />
+    <Library Include="lib\libtcta3cpp.lib" />
     <Library Include="lib\ntdll.lib" />
+    <Library Include="lib\zlib.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
